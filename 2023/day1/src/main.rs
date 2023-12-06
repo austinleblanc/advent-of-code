@@ -42,12 +42,12 @@ for line in contents.clone().split("\n") {
     for item in new_line{
         filtered_line += &item.to_string();
     }
-    println!("Line #{line_counter}: {filtered_line}");
+    //println!("Line #{line_counter}: {filtered_line}");
     let first = filtered_line.chars().nth(0).unwrap();
     let sec: char = filtered_line.chars().rev().nth(0).unwrap();
     let sum: i32 = (first.to_digit(10).unwrap() * 10 + sec.to_digit(10).unwrap()) as i32;
     total += sum;
-    println!("TEST: First: {first}, sec: {sec}, sum: {sum}"); 
+    //println!("TEST: First: {first}, sec: {sec}, sum: {sum}"); 
 }
 println!("Total: {total}");
 Ok(())  
