@@ -1,5 +1,4 @@
 use std::{
-    fmt::{self, Formatter},
     fs::File,
     io::{prelude::*, BufReader},
     vec,
@@ -10,15 +9,6 @@ struct Game {
     green: Vec<i32>,
     blue: Vec<i32>,
 }
-
-impl Game {
-    fn zero_self(&mut self) -> () {
-        self.red = vec![];
-        self.green = vec![];
-        self.blue = vec![];
-    }
-}
-
 fn main() -> std::io::Result<()> {
     let file = File::open("input.txt")?;
     let mut buf_reader = BufReader::new(file);
@@ -39,7 +29,6 @@ fn main() -> std::io::Result<()> {
         let trimmed_line = &val.to_string()[find_colon + 1..];
         let individual_hands = trimmed_line.split(";");
         for item in individual_hands {
-            game_to_check.zero_self();
             let hands = item.split(",");
             for obj in hands {
                 let mut hand = obj.split_ascii_whitespace();
@@ -52,24 +41,24 @@ fn main() -> std::io::Result<()> {
                     _ => (),
                 };
             }
-            /*if !THRESHOLD_VALS.compare(&game_to_check) {
-                bad_games = format!("{},{}", bad_games, idx + 1);
-                should_skip = true;
-                break;
-            }*/
         }
-        /*if !should_skip {
-            sum_of_ids += (idx as i32) + 1;
-        }*/
-        // Calculate powers
-        let max_red: i32 = game_to_check.red.into_iter().max().unwrap_or(1);
-        let max_green: i32 = game_to_check.green.into_iter().max().unwrap_or(1);
-        let max_blue: i32 = game_to_check.blue.into_iter().max().unwrap_or(1);
+
+        let mut max_red: i32 = game_to_check.red.into_iter().max().unwrap_or(1);
+        let mut max_green: i32 = game_to_check.green.into_iter().max().unwrap_or(1);
+        let mut max_blue: i32 = game_to_check.blue.into_iter().max().unwrap_or(1);
         //println!("Max red val: {max_red}, Max green val: {max_green}, Max blue val: {max_blue}");
-        println!("Combined power: {}", max_red * max_green * max_blue);
+        //println!("Combined power: {}", max_red * max_green * max_blue);
+        if max_red == 0 {
+            max_red = 1;
+        }
+        if max_green == 0 {
+            max_green = 1;
+        }
+        if max_blue == 0 {
+            max_blue = 1;
+        }
         max_power_sum += max_red * max_green * max_blue;
     }
-    //println!("Bad games: {}", &bad_games[1..]);
     println!("Max power sum: {max_power_sum}");
     Ok(())
 }
